@@ -11,6 +11,9 @@ spl_autoload_register(function($class){
     else if (file_exists('models/'.$class.'.php')) {
         require 'models/'.$class.'.php';
     } 
+    else if (file_exists('middleware/'.$class.'.php')) {
+        require 'middleware/'.$class.'.php';
+    }
     else if (file_exists('core/'.$class.'.php')) {
         require 'core/'.$class.'.php';
     }

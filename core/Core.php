@@ -1,6 +1,6 @@
 <?php
 
-class Core {
+class Core extends Auth {
 
     public function run() {
 
@@ -16,20 +16,52 @@ class Core {
             $url = explode('/', $url);
             array_shift($url);
 
-            $currentController = $url[0].'Controller';
-            
-            array_shift($url);
-            
-            if (isset($url[0]) && !empty($url[0])) {
-                $currentAction = $url[0];
-                array_shift($url);
+            if ( $url[0] == 'admin' ) {
+
+                $userLogged = $this->index();
+
+                // session_destroy();
+
+                if ( $userLogged ) {
+
+                    $currentController = $url[0].'Controller';
+                
+                    array_shift($url);
+                    
+                    if (isset($url[0]) && !empty($url[0])) {
+                        $currentAction = $url[0];
+                        array_shift($url);
+                    } else {
+                        $currentAction = 'index';
+                    }
+        
+                    if (count($url) > 0) {
+                        $params = $url;
+                    }
+
+                } else {
+                    header("Location: login");
+                }
+
             } else {
-                $currentAction = 'index';
+
+                $currentController = $url[0].'Controller';
+                
+                array_shift($url);
+                
+                if (isset($url[0]) && !empty($url[0])) {
+                    $currentAction = $url[0];
+                    array_shift($url);
+                } else {
+                    $currentAction = 'index';
+                }
+    
+                if (count($url) > 0) {
+                    $params = $url;
+                }
+
             }
 
-            if (count($url) > 0) {
-                $params = $url;
-            }
 
         } else {
             $currentController = 'homeController';
