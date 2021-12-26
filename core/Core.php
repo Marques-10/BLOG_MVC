@@ -18,11 +18,9 @@ class Core extends Auth {
 
             if ( $url[0] == 'admin' ) {
 
-                $userLogged = $this->index();
+                $adminLogged = $this->adminLogged();
 
-                // session_destroy();
-
-                if ( $userLogged ) {
+                if ( $adminLogged ) {
 
                     $currentController = $url[0].'Controller';
                 
@@ -40,7 +38,7 @@ class Core extends Auth {
                     }
 
                 } else {
-                    header("Location: login");
+                    header("Location: loginAdmin");
                 }
 
             } else {

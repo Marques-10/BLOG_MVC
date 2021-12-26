@@ -4,11 +4,17 @@ class loginController extends controller {
 
     public function index() {
 
-        $dados = array(
-            'admin' => 'admin testando'
-        );
+        $dados = array();
 
-        $this->loadView('login', $dados);
+        if (isset($_SESSION['userLogged']) || isset($_SESSION['adminLogged'])) {
+
+            header("Location: ".BASE_URL);
+
+        } else {
+
+            $this->loadView('login', $dados);
+        
+        }
 
     }
 

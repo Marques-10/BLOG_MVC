@@ -19,8 +19,8 @@
     </head>
 
     <body class="text-center">
-        <form class="form-signin" action="auth" method="POST">
-        <h1 class="h3 mb-3 font-weight-normal">Login</h1>
+        <form class="form-signin" action="authAdmin" method="POST">
+        <h1 class="h3 mb-3 font-weight-normal">Login Administradores</h1>
         <div class="form-group">
             <label for="inputEmail" class="sr-only">Email</label>
             <!-- <input type="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus> -->
@@ -43,16 +43,12 @@
                 placeholder="Senha"
                 <?php echo(!isset($password_wrong) && !empty($password_wrong) ? "" : "autofocus"); ?>
             />
-            <?php if( isset( $user_admin ) && $user_admin): ?>
-                <a class="btn btn-lg btn-default btn-block text-danger" href="<?php echo BASE_URL . "/admin"; ?>">
-                    <small id="passwordHelp" class="text-danger">
-                        Faça seu login como administrador
-                    </small>      
-                </a>
-            <?php endif; ?>
-            </div>
         </div>
- 
+        <div class="checkbox mb-3">
+            <label>
+            <input type="checkbox" value="remember-me"> Lembrar
+            </label>
+        </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
         <a class="btn btn-lg btn-default btn-block text-danger" href="<?php echo BASE_URL; ?>">Voltar</a>
         <p class="mt-5 mb-3 text-muted">&copy; 2021-2022</p>

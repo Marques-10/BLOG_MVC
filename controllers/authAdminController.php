@@ -1,6 +1,5 @@
 <?php
-
-class authController extends controller {
+class authAdminController extends controller {
 
     public function index() {
         $email = addslashes( $_POST['email'] );
@@ -9,21 +8,18 @@ class authController extends controller {
         if ( isset($email) && !empty($email) ) {
 
             $checkCredentials = $this->checkCredentials($email, $password);
-
-            // print_r($checkCredentials);
-            // exit;
             
             if (!isset( $checkCredentials['id'] )) {
                 
                 $dados = $checkCredentials;
 
-                $this->loadView('login', $dados);
+                $this->loadView('loginAdmin', $dados);
 
             } else {
-                $_SESSION['userLogged'] = true;
-                $_SESSION['userName'] = $checkCredentials['name'];
-                $_SESSION['userEmail'] = $checkCredentials['email'];
-                header("Location: ". BASE_URL);
+                $_SESSION['adminLogged'] = true;
+                $_SESSION['adminName'] = $checkCredentials['name'];
+                $_SESSION['adminEmail'] = $checkCredentials['email'];
+                header("Location: admin");
             }
 
         } else {
@@ -31,7 +27,7 @@ class authController extends controller {
                 "email_wrong" => true,
             );
 
-            $this->loadView('login', $dados);
+            $this->loadView('loginAdmin', $dados);
 
         }
 
@@ -42,7 +38,7 @@ class authController extends controller {
 
         $user = new Users();
 
-        $response = $user->verifyUser($email, $password, 2);
+        $response = $user->verifyAdmin($email, $password, 1);
     
         return $response;
 
