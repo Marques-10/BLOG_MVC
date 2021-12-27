@@ -17,6 +17,7 @@ class authAdminController extends controller {
 
             } else {
                 $_SESSION['adminLogged'] = true;
+                $_SESSION['idAdmin'] = $checkCredentials['id'];
                 $_SESSION['adminName'] = $checkCredentials['name'];
                 $_SESSION['adminEmail'] = $checkCredentials['email'];
                 header("Location: admin");
