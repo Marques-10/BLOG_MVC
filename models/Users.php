@@ -43,6 +43,27 @@ class Users extends Model {
 
     }
 
+    public function cadastrar($nome, $email, $senha) {
+
+        $sql = $this->db->prepare("SELECT id FROM users WHERE email = :email");
+        $sql->bindValue(":email", $email);
+        $sql->execute();
+
+        if ($sql->rowCount() === 0) {
+            $sql = $this->db->prepare("INSERT INTO users SET name = :nome, email = :email, password = :senha, type_user = :type_user");
+            $sql->bindValue(":nome", $nome);
+            $sql->bindValue(":email", $email);
+            $sql->bindValue(":senha", md5($senha));
+            $sql->bindValue(":type_user", 2);
+            $sql->execute();
+
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     public function verifyUser($email, $password, $type_user) {
 
         $sql = $this->db->prepare("SELECT id, name, email, type_user FROM users WHERE email = :email and password = :password AND type_user = :type_user");
@@ -129,5 +150,13 @@ class Users extends Model {
 
     }
 
+    public function getTotalUsers() {
+       
+        $sql = $this->db->query("SELECT COUNT(*) as c FROM users");
+        $row = $sql->fetch();
+
+        return $row['c'];
+    
+    }
 
 }

@@ -2,6 +2,34 @@
 
 class Posts extends Model {
 
+    public function getUltimosPosts($page, $perPage) {
+        
+        $offset = ($page - 1) * $perPage;
+
+        $array = array();
+
+        $sql = $this->db->prepare("SELECT 
+            *, 
+            (select posts_images.url from posts_images where 
+                posts_images.id_post = posts.id limit 1) as url
+            FROM posts ORDER BY id DESC LIMIT $offset, $perPage");
+        
+        $sql->execute();
+        
+        if ($sql->rowCount() > 0) {
+            $array = $sql->fetchAll();
+        }
+        
+        // echo "SELECT 
+        // *, 
+        // (select posts_images.url from posts_images where 
+        //     posts_images.id_post = posts.id limit 1) as url
+        // FROM posts ORDER BY id DESC LIMIT $offset, $perPage";
+
+        return $array;
+
+    }
+
     public function getPosts() {
 
         $array = array();
@@ -176,6 +204,18 @@ class Posts extends Model {
         $sql->bindValue(":id", $id);
         $sql->execute();
 
+    }
+
+    public function getTotalPosts() {
+
+        $sql = $this->db->prepare("SELECT COUNT(*) as c FROM posts");
+    
+        $sql->execute();
+
+        $row = $sql->fetch();
+
+        return $row["c"];
+    
     }
 
 }
