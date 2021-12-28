@@ -49,4 +49,133 @@ class Posts extends Model {
         return $array;
     }
 
+    public function addPost($titulo, $subtitulo, $description, $foto) {
+        
+        $sql = $this->db->prepare(
+            "INSERT INTO posts SET 
+                post_title = :titulo,
+                post_subtitle = :subtitulo,
+                post_description = :description,
+                id_user = :id_user");
+
+        $sql->bindValue(":titulo", $titulo);
+        $sql->bindValue(":subtitulo", $subtitulo);
+        $sql->bindValue(":description", $description);
+        $sql->bindValue(":id_user", $_SESSION['idAdmin']);
+        $sql->execute();
+
+        $id_iserted = $this->db->lastInsertId();
+
+        if (count($foto) > 0) {
+            for ($q = 0; $q < count($foto['tmp_name']); $q++) {
+                $tipo = $foto['type'][$q];
+                if (in_array($tipo, array('image/jpeg', 'image/png'))) {
+                    $tmpname = md5(time().rand(0,9999)).'.jpg';
+
+                    move_uploaded_file($foto['tmp_name'][$q], "C:\wamp64\www\BLOG_MVC\assets\images\posts/" . $tmpname);
+
+                    list($width_orig, $height_orig) = getimagesize("C:\wamp64\www\BLOG_MVC\assets\images\posts/" . $tmpname);
+                    $ratio = $width_orig / $height_orig;
+
+                    $width = 500;
+                    $height = 500;
+
+                    if ($width/$height > $ratio) {
+                        $width = $height * $ratio;
+                    } else {
+                        $height = $width/$ratio;
+                    }
+
+                    $img = imagecreatetruecolor($width, $height);
+                    if ($tipo == 'image/jpeg') {
+                        $origi = imagecreatefromjpeg("C:\wamp64\www\BLOG_MVC\assets\images\posts/" . $tmpname);
+                    } elseif ($tipo == 'image/png') {
+                        $origi = imagecreatefrompng("C:\wamp64\www\BLOG_MVC\assets\images\posts/" . $tmpname);
+                    }
+                    
+                    imagecopyresampled($img, $origi, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
+
+                    imagejpeg($img, "C:\wamp64\www\BLOG_MVC\assets\images\posts/" . $tmpname, 80);
+
+                    $sql = $this->db->prepare("INSERT INTO posts_images SET id_post = :id_post, url = :url");
+                    $sql->bindValue(":id_post", $id_iserted);
+                    $sql->bindValue(":url", $tmpname);
+                    $sql->execute();
+
+                }
+            }
+        }
+
+    }
+
+    public function editPost($id, $titulo, $subtitulo, $description, $foto) {
+
+        $sql = $this->db->prepare(
+            "UPDATE posts SET 
+                post_title = :titulo,
+                post_subtitle = :subtitulo,
+                post_description = :description,
+                id_user = :id_user,
+                id = :id WHERE id = :id");
+        $sql->bindValue(":titulo", $titulo);
+        $sql->bindValue(":subtitulo", $subtitulo);
+        $sql->bindValue(":description", $description);
+        $sql->bindValue(":id_user", $_SESSION['idAdmin']);
+        $sql->bindValue(":id", $id);
+        $sql->execute();
+
+        if (count($foto) > 0) {
+            for ($q = 0; $q < count($foto['tmp_name']); $q++) {
+                $tipo = $foto['type'][$q];
+                if (in_array($tipo, array('image/jpeg', 'image/png'))) {
+                    $tmpname = md5(time().rand(0,9999)).'.jpg';
+
+                    move_uploaded_file($foto['tmp_name'][$q], "C:\wamp64\www\BLOG_MVC\assets\images\posts/" . $tmpname);
+
+                    list($width_orig, $height_orig) = getimagesize("C:\wamp64\www\BLOG_MVC\assets\images\posts/" . $tmpname);
+                    $ratio = $width_orig / $height_orig;
+
+                    $width = 500;
+                    $height = 500;
+
+                    if ($width/$height > $ratio) {
+                        $width = $height * $ratio;
+                    } else {
+                        $height = $width/$ratio;
+                    }
+
+                    $img = imagecreatetruecolor($width, $height);
+                    if ($tipo == 'image/jpeg') {
+                        $origi = imagecreatefromjpeg("C:\wamp64\www\BLOG_MVC\assets\images\posts/" . $tmpname);
+                    } elseif ($tipo == 'image/png') {
+                        $origi = imagecreatefrompng("C:\wamp64\www\BLOG_MVC\assets\images\posts/" . $tmpname);
+                    }
+                    
+                    imagecopyresampled($img, $origi, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
+
+                    imagejpeg($img, "C:\wamp64\www\BLOG_MVC\assets\images\posts/" . $tmpname, 80);
+
+                    $sql = $this->db->prepare("UPDATE posts_images SET url = :url WHERE id_post = :id_post");
+                    $sql->bindValue(":id_post", $id);
+                    $sql->bindValue(":url", $tmpname);
+                    $sql->execute();
+
+                }
+            }
+        }
+
+    }
+
+    public function excluirPost($id) {
+
+        $sql = $this->db->prepare("DELETE FROM posts_images WHERE id_post = :id_post");
+        $sql->bindValue(":id_post", $id);
+        $sql->execute();
+
+        $sql = $this->db->prepare("DELETE FROM posts WHERE id = :id");
+        $sql->bindValue(":id", $id);
+        $sql->execute();
+
+    }
+
 }

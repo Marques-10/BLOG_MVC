@@ -1,15 +1,3 @@
-<?php 
-
-// echo "<pre>";
-
-// print_r($data);
-
-// echo "</pre>";
-
-// exit;
-
-?>
-
 <html>
     <head>
         <title>Bis2Bis</title>
@@ -39,37 +27,25 @@
         </nav>
 
         <div class="container">
-        <h1>Meus Posts - Editar posts</h1>
+        <h3>Meus Posts - Adicionar Post</h3>
 
-            <form method="POST" enctype="multipart/form-data" action="<?php echo BASE_URL; ?>/admin/atualizar/<?php echo $data['id'] ?>">
+            <form method="POST" enctype="multipart/form-data" action="<?php echo BASE_URL; ?>/admin/salvar">
                 <div class="form-group">
                     <label for="titulo">Título:</label>
-                    <input type="text" name="titulo" id="titulo" class="form-control" value="<?php echo $data['post_title']; ?>">
+                    <input type="text" name="titulo" id="titulo" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="subtitulo">Sub-título:</label>
-                    <input type="text" name="subtitulo" id="subtitulo" class="form-control" value="<?php echo $data['post_subtitle'];?>">
+                    <input type="text" name="subtitulo" id="subtitulo" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="description">Descrição:</label>
-                    <textarea name="description" id="description" class="form-control"><?php echo $data['post_description'];?></textarea>
+                    <textarea name="description" id="description" class="form-control"></textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="add_foto">Alterar foto do Post:</label>
                     <input type="file" name="foto[]" /><br>
-
-                    <div class="panel panel-default mt-4">
-                        <div class="panel-heading">Foto atual do Post:</div>
-                        <div class="panel-body">
-                            <?php foreach($data['fotos'] as $foto): ?>
-                                <div class="foto_item">
-                                    <img src="<?php echo BASE_URL."/assets/images/posts/".$foto['url']; ?>" width="400px" class="img-thumbnail" border="0"><br>
-                                    <a class="btn btn-danger mt-4" href="<?php echo BASE_URL; ?>/admin/deletarfoto/<?php echo $foto['id']; ?>">Excluir Imagem</a>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
                 </div>
 
                 <input type="submit" value="Salvar" class="btn btn-info">

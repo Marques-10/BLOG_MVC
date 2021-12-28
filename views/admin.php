@@ -1,3 +1,13 @@
+<?php
+
+// echo "<pre>";
+
+// print_r($posts);
+
+// echo "</pre>";
+
+?>
+
 <html>
     <head>
         <title>Bis2Bis</title>
@@ -16,7 +26,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Administrador: <?php echo $_SESSION['adminName']; ?></a>
+                            <a class="nav-link" href="<?php echo BASE_URL; ?>/admin">Administrador: <?php echo $_SESSION['adminName']; ?></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="<?php echo BASE_URL; ?>/logout">Deslogar</a>
@@ -27,10 +37,24 @@
         </nav>
 
         <div class="container">
-            <h1>Meus Posts</h1>
+            <h3>Meus Posts</h3>
 
-            <a href="<?php echo BASE_URL; ?>/posts/adicionar" class="btn btn-success mb-3">Adicionar Post</a>
+            <a href="<?php echo BASE_URL; ?>/admin/adicionar" class="btn btn-success mb-3">Adicionar Post</a>
         
+            <?php
+    
+            if (isset($posts['status'])) {
+
+                ?>
+                    <div class="alert alert-success">
+                        Post adicionado com sucesso!
+                    </div>
+                <?php
+
+            }
+            
+            ?>
+
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -43,6 +67,7 @@
                 </thead>
                 <?php
                     foreach($posts as $post):
+                        if (isset($post['post_title'])) {
                 ?>
                     <tr>
                         <td>
@@ -67,7 +92,9 @@
                             <a href="<?php echo BASE_URL; ?>/admin/excluir/<?php echo $post['id']; ?>" class="btn btn-danger">Excluir</a>
                         </td>
                     </tr>
-                <?php endforeach; ?>
+                <?php 
+                        }
+                    endforeach; ?>
             </table>
         </div>
         
