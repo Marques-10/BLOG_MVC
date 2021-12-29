@@ -7,6 +7,7 @@ class homeController extends controller {
         $dados = array();
 
         $p = new Posts();
+
         $u = new Users();
 
         $total_posts = $p->getTotalPosts();

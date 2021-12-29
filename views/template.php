@@ -25,7 +25,7 @@
                     <ul class="navbar-nav ml-auto">
                         <?php if (isset($_SESSION['adminLogged']) && !empty($_SESSION['adminLogged'])): ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Bem-vindo: <?php echo $_SESSION['adminName']; ?></a>
+                                <a class="nav-link" href="<?php echo BASE_URL; ?>/admin">Bem-vindo: <?php echo $_SESSION['adminName']; ?></a>
                             </li> 
                             <li class="nav-item">
                                 <a class="nav-link" href="<?php echo BASE_URL; ?>/admin">Posts</a>

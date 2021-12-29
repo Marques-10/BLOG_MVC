@@ -20,7 +20,7 @@
                         <?php if (!empty($post['url'])): ?>
                         <img src="<?php echo BASE_URL; ?>/assets/images/posts/<?php echo $post['url']; ?>" height="150px" border="0">
                         <?php else: ?>
-                        <img src="<?php echo BASE_URL; ?>/assets/images/posts/default.png" height="150px" border="0">
+                        <img src="<?php echo BASE_URL; ?>/assets/images/posts/default.jpg" height="150px" border="0">
                         <?php endif; ?>
                     </td>
                     <td width="160px">

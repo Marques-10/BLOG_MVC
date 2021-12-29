@@ -65,7 +65,6 @@
                             <?php foreach($data['fotos'] as $foto): ?>
                                 <div class="foto_item">
                                     <img src="<?php echo BASE_URL."/assets/images/posts/".$foto['url']; ?>" width="400px" class="img-thumbnail" border="0"><br>
-                                    <a class="btn btn-danger mt-4" href="<?php echo BASE_URL; ?>/admin/deletarfoto/<?php echo $foto['id']; ?>">Excluir Imagem</a>
                                 </div>
                             <?php endforeach; ?>
                         </div>

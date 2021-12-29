@@ -126,4 +126,20 @@ class adminController extends controller {
 
     }
 
+    public function backup() {
+
+        $p = new Posts();
+
+        $name_backup = $p->dumpDatabase();
+
+        ?>
+            <script type="text/javascript">
+                window.open('<?php echo BASE_URL; ?>/database/<?php echo $name_backup; ?>')
+            </script>
+
+            <script type="text/javascript">window.location.href = "<?php echo BASE_URL; ?>/admin"</script>
+        <?php
+    
+    }
+
 }

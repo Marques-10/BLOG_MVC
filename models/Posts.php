@@ -2,6 +2,17 @@
 
 class Posts extends Model {
 
+    public function dumpDatabase() {
+
+        $name_bkp = "bkp_" . date('Y-m-d') . ".sql";
+
+        exec("C:/wamp64/bin/mysql/mysql5.7.31/bin/mysqldump -u root blog_mvc > database/$name_bkp");
+        // C:/wamp64/bin/mysql/mysql5.7.31/bin/mysqldump
+
+        return $name_bkp;
+
+    }
+
     public function getUltimosPosts($page, $perPage) {
         
         $offset = ($page - 1) * $perPage;

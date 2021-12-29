@@ -29,6 +29,9 @@
                             <a class="nav-link" href="<?php echo BASE_URL; ?>/admin">Administrador: <?php echo $_SESSION['adminName']; ?></a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="<?php echo BASE_URL; ?>/admin/backup">Backup Banco de dados</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="<?php echo BASE_URL; ?>/logout">Deslogar</a>
                         </li>
                     </ul>
